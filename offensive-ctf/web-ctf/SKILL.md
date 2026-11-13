@@ -5,7 +5,7 @@ license: MIT
 compatibility: "AgentSkills-compatible agents; local challenge artifacts; authorized training and lab environments."
 metadata:
   author: AeonDave
-  version: "1.0"
+  version: "1.1"
   category: ctf-solving
 ---
 
@@ -32,7 +32,7 @@ Goal: solve web-application CTF tasks with professional methodology, curated hig
 Primary methodology to load:
 
 - `web-exploit-technique`
-- `vuln-search-technique`
+- [vuln-research](../../knowledge-offensive/vuln-research/SKILL.md) for vulnerability hypotheses and reproducible findings
 - `recon-technique`
 - `fuzzing-technique`
 
@@ -50,7 +50,6 @@ Prefer these tool families when the corresponding signal appears:
 - `sqlmap`
 - `sstimap`
 - `ssrfmap`
-- `nosqlmap`
 - `dalfox`
 - `nuclei`
 - `ffuf`

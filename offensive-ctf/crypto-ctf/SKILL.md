@@ -5,7 +5,7 @@ license: MIT
 compatibility: "AgentSkills-compatible agents; local challenge artifacts; authorized training and lab environments."
 metadata:
   author: AeonDave
-  version: "1.0"
+  version: "1.1"
   category: ctf-solving
 ---
 
@@ -54,11 +54,9 @@ Tool syntax belongs in the tool skills. This skill decides when a tool family fi
 - Rank attacks by structural evidence: factorability, smoothness, nonce reuse, small roots, linear recurrence, or mode misuse.
 - Validate recovered material by re-encryption, signature verification, oracle replay, or known plaintext.
 
-## Targeted hint research gate
+## Targeted hint research
 
-If local triage has already classified the primitive, ranked attacks, and still hit a specific wall, load `knowledge/known-problem-hint-research`.
-
-Use it only as a post-triage spike to find a paper, blog, article, public analysis, source discussion, or implementation note that maps to the exact problem fingerprint. Do not use it as broad search or before the local pivot ledger has evidence.
+Load [known-problem-hint-research](../../knowledge/known-problem-hint-research/SKILL.md) when an external clue could identify the primitive, reveal a missing construction, or suggest the next test. Search from observed structure; do not wait until attacks are ranked or local hypotheses are exhausted.
 
 ## Quality gates
 
@@ -91,7 +89,7 @@ Use it only as a post-triage spike to find a paper, blog, article, public analys
 - [references/advanced-math.md](references/advanced-math.md) — Isogenies and CSIDH, Pohlig-Hellman algorithm, LLL lattice reduction, Coppersmith small-roots method, Clock group DLP, Babai nearest-plane algorithm, CVP/SVP solvers, GF(2) linear algebra, generalized birthday attacks, sparse polynomial systems.
 
 ### Lattice & LWE
-- [references/lattice-and-lwe.md](references/lattice-and-lwe.md) — Lattice problems (SVP, CVP, HNP), LWE attacks (Gaussian elimination, BKZ reduction), hidden number problem, ECDSA partial-nonce recovery via lattice, LWE parameter tweaking, NTRU attacks.
+- [references/lattice-and-lwe.md](references/lattice-and-lwe.md) — Load for lattice/LWE equations, partial-nonce recovery, or ML-KEM/NTRU artifacts: parameter and representation checks, reduction methods and candidate validation.
 
 ### Classic Ciphers
 - [references/classic-ciphers.md](references/classic-ciphers.md) — Vigenere cipher frequency analysis, Atbash simple substitution, Polybius square attacks, substitution cipher key recovery, XOR-based cipher analysis, pattern matching and constraint solving.

@@ -27,7 +27,7 @@ Collect these before deciding exploit path:
 ## Static and dynamic analysis ladder
 
 - Source available: compile with matching `solc`, inspect storage layout, run Slither, then write Foundry tests for suspicious paths.
-- Bytecode only: recover selectors, decompile, inspect metadata, trace transactions, and query raw storage.
+- Bytecode only: recover selectors, decompile, inspect metadata, trace transactions, and query raw storage. A raw selector match may be PUSH-immediate data, not a dispatcher comparison; verify dispatch/control flow, and claim execution only from a trace of the relevant call/state (Geth opcode traces report executed instructions; [Geth tracing](https://geth.ethereum.org/docs/developers/evm-tracing/basic-traces), [EVM opcodes](https://github.com/ethereum/go-ethereum/blob/master/core/vm/instructions.go)).
 - State-machine target: fuzz with Foundry/Echidna invariants before hand-writing long exploit chains.
 - Path-sensitive bug: use Mythril or symbolic checks for reachability, then verify manually with a focused test.
 - Frontend-gated task: inspect bundle for addresses, chain ID, nonce/signature format, and lowercase/checksum expectations.
@@ -101,3 +101,16 @@ Collect these before deciding exploit path:
 - Ignoring gas and value constraints that differ between local tests and the target chain.
 - Running Slither/Mythril without matching compiler setup and then trusting false positives or false negatives.
 - Broadcasting exploratory transactions instead of proving locally first.
+
+## Flashloan-powered single-transaction combos
+
+Trace the lender's actual callback and repayment rules. For [ERC-3156](https://eips.ethereum.org/EIPS/eip-3156), `flashLoan` calls the receiver's `onFlashLoan` and pulls principal plus fee after the callback. Test temporary balance, pricing, and fee assumptions locally. A reverted transaction rolls back its state changes but an on-chain attempt still consumes gas.
+
+## solc 0.8.x arithmetic edge patterns
+
+Checked arithmetic is the 0.8 default — the residual bug families:
+
+- **`unchecked { }` blocks**: audited math deliberately un-guarded — find the block where the invariant the rest of the contract relies on is *not* re-checked after the block.
+- **Explicit downcasts**: `uint128(wideValue)` truncates high bits; implicit narrowing assignments are disallowed. Check range before casts and trace stored values.
+- **Rounding**: check integer division and share/asset conversions independently of overflow checks.
+- **Signed/unsigned boundary**: inspect explicit conversions and range checks; Solidity 0.8 restricts conversions that change multiple properties at once. See [Solidity conversions](https://docs.soliditylang.org/en/latest/types.html#conversions-between-elementary-types) and [0.8 breaking changes](https://docs.soliditylang.org/en/latest/080-breaking-changes.html).

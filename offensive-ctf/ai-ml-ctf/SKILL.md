@@ -5,7 +5,7 @@ license: MIT
 compatibility: "AgentSkills-compatible agents; local challenge artifacts; authorized training and lab environments."
 metadata:
   author: AeonDave
-  version: "1.0"
+  version: "1.1"
   category: ctf-solving
 ---
 
@@ -34,7 +34,7 @@ Primary methodology to load:
 
 - `web-exploit-technique`
 - `llm-technique`
-- `vuln-search-technique`
+- [vuln-research](../../knowledge-offensive/vuln-research/SKILL.md) for vulnerability hypotheses and reproducible findings
 - `reversing-technique`
 - `python-patterns`
 - `python-testing`
@@ -88,6 +88,7 @@ Tool syntax belongs in the tool skills. This skill decides when a tool family fi
 ## Resources
 
 - [references/adversarial-ml.md](references/adversarial-ml.md) — adversarial examples, patch attacks, evasion, poisoning, and backdoor detection workflows.
+- [ART](../../ai/adversarial-robustness-toolbox/SKILL.md) — load when implementing an experiment with ART estimator adapters or attack/evaluation APIs; keep the challenge's existing success oracle.
 - [references/llm-attacks.md](references/llm-attacks.md) — prompt injection, jailbreaks, token smuggling, context manipulation, tool-use, and RAG/task-flow attacks.
 - [references/model-attacks.md](references/model-attacks.md) — model inversion, extraction, membership inference, LoRA merging, checkpoint arithmetic, and encoder collisions.
 - [references/model-file-forensics-and-deserialization.md](references/model-file-forensics-and-deserialization.md) — Load for model-file artifacts: format triage, safe pickle/opcode inspection, deserialization RCE sinks (pickle, Keras Lambda, GGUF SSTI, ONNX), and secret recovery from weights/metadata.
