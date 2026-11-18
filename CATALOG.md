@@ -13,7 +13,7 @@ One skill per tool, organized by attack phase: version-aware setup, useful comma
 | `windows/` | bloodhound, certipy, enum4linux-ng, impacket, ldaprelayscan, netexec, sharphound |
 | `vuln-scanners/` | burpsuite, dalfox, nuclei, osv-scanner, sqlmap, titus, trivy |
 | `recon/` | dnsx, feroxbuster, gobuster, httpx, massdns, shodan |
-| `network/` | chisel, masscan, mitmproxy, nmap, responder, wireshark |
+| `network/` | chisel, ligolo-ng, masscan, mitmproxy, nmap, proxychains-ng, socat, wireshark |
 | `cryptography/` | rsactftool, sagemath, cyberchef |
 | `web/` | commix, jwt-tool, waymore, xsstrike, zap |
 | `fuzzing/` | aflplusplus, arjun, boofuzz, dotdotpwn, ffuf, restler |
@@ -92,6 +92,8 @@ Cross-cutting software-engineering stances that shape *how* code work is done, i
 | [`test-driven-development`](coding-behaviours/test-driven-development/SKILL.md) | Test-first implementation |
 | [`testing-reliability`](coding-behaviours/testing-reliability/SKILL.md) | Trustworthy assertions, doubles, fixtures, and mutation-result triage |
 | [`systematic-debugging`](coding-behaviours/systematic-debugging/SKILL.md) | Root-cause failure diagnosis |
+| [`dependency-discipline`](coding-behaviours/dependency-discipline/SKILL.md) | Evaluate, pin, hash-verify, and audit dependencies at adoption/upgrade time; incident response |
+| [`secure-tooling-implementation`](coding-behaviours/secure-tooling-implementation/SKILL.md) | Write offensive tooling that is not itself the vulnerability: trust boundaries, subprocess/path/TLS/secrets discipline |
 
 ## `knowledge/` - Research and meta-skills
 
@@ -121,6 +123,11 @@ Research and development support for authorized security assessments. Use the na
 | `poc-weaponization` | Review public or generated PoCs, dependency risks, diagnostic checks, and replay evidence |
 | `prompt-engineering-patterns` | Design and evaluate prompts for security-artifact extraction, triage, and reporting |
 | [`offensive-orchestration`](knowledge-offensive/offensive-orchestration/SKILL.md) | Route security questions to technical skills, coordinate target/session ownership, and reconcile evidence across workers |
+| [`threat-modeling`](knowledge-offensive/threat-modeling/SKILL.md) | Decompose a target (DFD/STRIDE/attack trees), prioritize threats, map to ATT&CK to feed the assessment plan |
+| [`adversary-emulation-planning`](knowledge-offensive/adversary-emulation-planning/SKILL.md) | Build a CTI-driven emulation plan: extract TTPs, map to ATT&CK, prioritize against the target stack, structure phased procedures with detection expectations |
+| [`agent-skill-audit`](knowledge-offensive/agent-skill-audit/SKILL.md) | Audit skill collections and referenced dependencies for unauthorized data flow, memory persistence and cross-file instruction chains |
+| [`autonomous-offensive-agents`](knowledge-offensive/autonomous-offensive-agents/SKILL.md) | Evaluate autonomous assessment frameworks: workload fit, execution controls, evidence quality and telemetry |
+| [`malicious-skill-authoring`](knowledge-offensive/malicious-skill-authoring/SKILL.md) | Red-team the agent skill/memory supply chain: build/plant MalSkills (overt→dependency-mediated→chain→ghost→worm) with lab-style containment; the offensive pair to agent-skill-audit |
 
 ## `harness-dev/` - Agent harness development
 
@@ -139,16 +146,21 @@ Cross-cutting behavioral guardrails that shape *how* an agent works. Load these 
 
 | Skill | Role |
 |-------|------|
-| `1337` | Concise, methodical red/blue/purple security mode with task knowledge in Markdown or Obsidian |
 | `design-before-implementation` | Clarify scope, alternatives, constraints, and success criteria before building |
 | `evidence-before-claims` | Gate security claims on reproducible evidence and honest uncertainty |
 | `handoff` | Verified session transfers and readable handoffs for colleagues, reviewers, or managers |
 | `humanizer` | Write or revise natural prose from drafts or notes, preserving author voice, facts, and evidence limits |
 | `hypothesis-driven` | Force explicit hypotheses and falsifiable predictions for hard problems |
 | `implementation-planning` | Turn approved designs into executable, verifiable task plans |
+| `irreversible-action-gate` | One-line impact/rollback/scope brief before destructive operations, then execute the operator's call; target-safety ordering |
 | `loop-control-and-pivots` | Retry discipline; pivot dead paths, honest BLOCKED reporting |
 | `memory-hygiene` | Retrieve, correct, and verify scoped persistent memory with source provenance |
+| `offensive-operator-mode` | Sustained, evidence-driven offensive-security operating posture (elite/1337); task knowledge in Markdown or Obsidian |
+| `pushback-over-agreement` | Disagree with evidence instead of yes-manning; hold correct refusals under pressure, concede fast when wrong |
 | `reading-budget-discipline` | Keep the context window lean when reading large data |
+| `rules-of-engagement` | Know the engagement contract (authorization, targets, techniques, window, data handling) and surface it during work; the operator owns the decisions |
+| `scope-discipline` | Stay on the requested task mid-flight: ledger drive-by findings, re-plan grown requests, state the boundary |
+| `uncertainty-calibration` | State confidence in proportion to evidence; label verified vs inferred vs guessed; test or escalate instead of asserting |
 | `untrusted-input-hygiene` | Use external data without accepting embedded commands or losing the legitimate task |
 | `verification-before-completion` | Require fresh verification before claiming work is done or fixed |
 
@@ -156,10 +168,15 @@ Cross-cutting behavioral guardrails that shape *how* an agent works. Load these 
 
 Support skills for building or auditing AI/ML pipelines used inside security tooling.
 
-- **`keras`** / **`pytorch`** / **`scikit-learn`** - ML framework patterns for security models and adversarial workflows.
+- **`keras`** / **`pytorch`** / **`scikit-learn`** / **[`transformers`](ai/transformers/SKILL.md)** - ML framework loading, inspection, and safe-deserialization patterns for model artifacts.
 - **`langchain-py`** - Production-oriented LangChain Python workflows.
 - **[`adversarial-robustness-toolbox`](ai/adversarial-robustness-toolbox/SKILL.md)** - ART estimator adapters, bounded adversarial experiments, and evidence-based evaluation for ML security assessments.
 - **`vec2text`** - Embedding-inversion attack against vector databases.
+- **Artifact security**: [`model-scanning`](ai/model-scanning/SKILL.md) - scan untrusted pickle/PyTorch/Keras/ONNX/GGUF model files (picklescan/fickling/modelscan/modelaudit) before loading; a clean scan is not proof of safety.
+- **Model adaptation & modification**: [`model-finetuning`](ai/model-finetuning/SKILL.md) (LoRA/QLoRA SFT, preference optimization and unlearning audits), [`abliteration`](ai/abliteration/SKILL.md) (training-free refusal/behavior editing via residual-direction ablation), and [`model-merging`](ai/model-merging/SKILL.md) (weight-space merges: SLERP/TIES/DARE/task-arithmetic/MoE).
+- **Interpretability**: [`interpretability`](ai/interpretability/SKILL.md) - explain model decisions and locate behaviors: SHAP/LIME/Captum attribution (ML/DL) and TransformerLens/SAE mechanistic analysis (LLM).
+- **LLM red-teaming stack**: [`garak`](ai/garak/SKILL.md) (probe catalog scanner), [`pyrit`](ai/pyrit/SKILL.md) (adaptive multi-turn orchestration), [`promptfoo`](ai/promptfoo/SKILL.md) (app-level eval + CI red-team gate).
+- **LLM lab infrastructure**: [`ollama`](ai/ollama/SKILL.md) (local runtime, airgapped targets), [`litellm`](ai/litellm/SKILL.md) (provider gateway; includes the 2026-10 supply-chain incident notes).
 
 ## `hardware/` - Embedded and maker-platform support
 

@@ -15,7 +15,7 @@ nm binary 2>/dev/null | grep -iE "NimMain|nimGC|HEX[0-9A-F]+"
 ```
 
 **Strong indicators:**
-- Symbol `NimMain` or `NimMainInner` — always present in non-stripped builds
+- Symbol `NimMain` or `NimMainInner` (possibly prefixed via `--nimMainPrefix`)
 - Mangled names with `HEX` prefix: `HEXopenHEX_u100` (Nim name mangling)
 - String constants matching `*.nim:line` (internal source annotations)
 - `@[` substring in read-only data (Nim array literal syntax leaks)
@@ -207,6 +207,14 @@ When neither symbols nor FLIRT help:
 4. **Recognize GC primitives** — functions that take a single pointer and call `nimGCref`/`nimGCunref`/`nimRawNewObj` are GC helpers, not business logic; skip them
 5. **Cross-ref rodata strings** → most Nim programs produce human-readable error messages; trace them to handlers → identify key code paths
 6. **Type reconstruction** — use the `NimString` and `NimSeq` patterns above to recover argument types of unknown functions
+
+### DLL entry points and exports
+
+Inspect both initialization and exports, including innocuous-looking export names. [`NimMain` initializes the runtime and runs top-level statements](https://nim-lang.org/docs/nimc.html); application logic can therefore be reachable through initialization as well as exported procedures. The entry layout and import set depend on the build and sample.
+
+- **ASLR mapping:** correlate an address inside the DLL with `runtime module base + RVA`. Imported API implementations belong to their own modules and need separate address resolution.
+- **Dynamic imports:** a resolved API pointer may have no static cross-reference. Correlate resolver results and observed callers before assigning an export to a behavior.
+- **Silent exit:** inspect the exit path and unmet inputs; lack of output does not by itself prove a validation check or a hidden payload.
 
 ---
 

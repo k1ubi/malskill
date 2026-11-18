@@ -23,6 +23,7 @@ Give each worker a concrete question, the necessary context, and the relevant sk
 
 | Question | Starting skill |
 |---|---|
+| Scope what to attack and why, or plan a named-adversary emulation | [threat-modeling](../threat-modeling/SKILL.md) or [adversary-emulation-planning](../adversary-emulation-planning/SKILL.md) |
 | Map assets or investigate public sources | [recon-technique](../../offensive-techniques/recon-technique/SKILL.md) or [osint-technique](../../offensive-techniques/osint-technique/SKILL.md) |
 | Investigate a vulnerability or advisory, or validate supported web impact | [vuln-research](../vuln-research/SKILL.md) or [web-exploit-technique](../../offensive-techniques/web-exploit-technique/SKILL.md) |
 | Assess cloud access, a host session, or an AD path | [cloud-security-technique](../../offensive-techniques/cloud-security-technique/SKILL.md), [post-exploit-technique](../../offensive-techniques/post-exploit-technique/SKILL.md), or [active-directory-technique](../../offensive-techniques/active-directory-technique/SKILL.md) |
@@ -52,10 +53,12 @@ Compare conflicting results by identity, build, prerequisites, input, timing, an
 
 Load [evidence-before-claims](../../behaviours/evidence-before-claims/SKILL.md) when promoting a lead into a finding or reconciling claims for an engagement report. Separate observed behavior, inferred cause, reachable impact, and untested extensions. Report the achieved objective, evidence, coverage gaps, remaining sessions/jobs, and next useful action.
 
-For investigations spanning many artifacts or sessions, load the [operational brain](../../behaviours/1337/references/brain.md) and link job results, consequential routing decisions, and failures into the existing task record. Use [handoff](../../behaviours/handoff/SKILL.md) for an explicit transfer.
+For investigations spanning many artifacts or sessions, load the [operational brain](../../behaviours/offensive-operator-mode/references/brain.md) and link job results, consequential routing decisions, and failures into the existing task record. Use [handoff](../../behaviours/handoff/SKILL.md) for an explicit transfer.
 
 ## When configuring the agent infrastructure
 
 Enforce tool, credential, filesystem, and network access in the execution layer. Model instructions do not provide isolation; containers alone do not establish the required boundary. Keep privileged control sockets and writable host configuration out of worker environments unless the task requires them.
 
 Review MCP/tool definitions and detect changes. Verify local artifacts where supported; authenticate and govern remote endpoints rather than treating a local checksum as a pin on remote behavior. Load [untrusted-input-hygiene](../../behaviours/untrusted-input-hygiene/SKILL.md) when ingesting target output, tool descriptions, shared messages, or worker files; validate their provenance and destination format before use.
+
+Load [`autonomous-offensive-agents`](../autonomous-offensive-agents/SKILL.md) when selecting or validating an autonomous assessment framework's controls, evidence quality and telemetry; this skill covers coordinating your own investigation workers.

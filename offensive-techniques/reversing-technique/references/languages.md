@@ -54,6 +54,14 @@ This is static routine emulation, not execution of the Go implant. If the closur
 
 ---
 
+### 1.2b Stripped-binaries — function name recovery
+
+[Ghidra_GolangAnalyzerExtension](https://github.com/mooncat-greenpy/Ghidra_GolangAnalyzerExtension) can recover function names, source annotations, and types when compatible Go metadata survives. Check the extension's supported Go/Ghidra versions; obfuscation or damaged metadata can limit recovery. Start with `main.*`, then follow calls and initialization into application packages. [Go programs include imported packages](https://go.dev/ref/spec#Program_initialization_and_execution), so excluding every non-`main` function can hide application logic.
+
+### 1.2c Config decryption via breakpoint
+
+When isolated execution is needed, break at a candidate decoder and inspect its input/output using the target's Go ABI and pointer/length layout. For a non-PIE ELF, text addresses usually match the linked image; still verify the loaded mapping before using a Ghidra address. [PIE and runtime allocations may be randomized](https://sourceware.org/gdb/current/onlinedocs/gdb.html/Starting.html). Correlate the decoded value with the static input and call path, not by assuming a heap output buffer shares the input's address.
+
 ### 1.3 Go Memory Layout
 
 Understanding data structures prevents misreading register values as scalars.

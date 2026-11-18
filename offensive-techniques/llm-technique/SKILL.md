@@ -6,7 +6,6 @@ compatibility: "Chat UIs, RAG apps, tool-using agents, MCP hosts/servers, browse
 metadata:
   author: AeonDave
   version: "2.0"
-  category: offensive-techniques
   language: multi
 ---
 
@@ -236,6 +235,7 @@ LLM output is often rendered or executed downstream — that surface is the real
 - **Adapter / LoRA smuggling** — malicious LoRA / PEFT weights change behavior only for trigger tokens.
 - **System prompt / template drift** — vendor changes template; injection payloads succeed after an update.
 - **Plugin / MCP server registry** — an MCP server pulled by name from a public registry is a supply-chain input.
+- **Malicious agent skills (MalSkills)** — skill/rule/memory files can deliver hostile instructions through the agent supply chain; effect depends on host permissions and instruction handling. Load [agent-skill-audit](../../knowledge-offensive/agent-skill-audit/SKILL.md) for collection and dependency review, or [malicious-skill-authoring](../../knowledge-offensive/malicious-skill-authoring/SKILL.md) for an isolated authorized fixture.
 
 Deep dive on model file forensics: `offensive-ctf/ai-ml-ctf/references/model-file-forensics-and-deserialization.md`.
 

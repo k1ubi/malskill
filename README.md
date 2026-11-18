@@ -43,7 +43,7 @@ Load these only when they directly serve the active security task.
 | [`knowledge-offensive/`](CATALOG.md#knowledge-offensive---assessment-research-and-evidence) | Vulnerability research and assessment coverage, CVE inventory, PoC review, security prompts, coordination of target sessions and evidence |
 | [`harness-dev/`](CATALOG.md#harness-dev---agent-harness-development) | Vendor-specific agent and extension authoring |
 | [`behaviours/`](CATALOG.md#behaviours---cognitive-discipline-skills) | Cross-cutting operating stances: evidence gates, loop control, input hygiene |
-| [`ai/`](CATALOG.md#ai---ai-framework-skills) | ML framework inspection and adversarial-robustness evaluation for security tasks |
+| [`ai/`](CATALOG.md#ai---ai-framework-skills) | ML/LLM model inspection and interpretability, artifact scanning, fine-tuning and training-free modification, and LLM red-teaming tooling for security tasks |
 | [`hardware/`](CATALOG.md#hardware---embedded-and-maker-platform-support) | Dev-board bring-up, comms modules, sensor interfacing |
 
 ---
@@ -109,12 +109,17 @@ python scripts/sweep_skills.py offensive-tools/windows/mimikatz
 # Check changed files for final newlines and git diff whitespace issues
 python scripts/check_changed_files.py
 
+# Audit the whole tree: proofs, routing/CATALOG/README alignment, content-currency staleness
+python scripts/assurance_check.py
+
 # Summarize v5 x64 Windows survey logs as diagnostic numerical evidence
 python scripts/summarize_windows_survey.py /path/to/results > survey.csv
 
 # Package a skill into a .skill archive
 python scripts/package_skill.py offensive-tools/windows/mimikatz
 ```
+
+Content-currency attestations in `.assurance/claims.yaml` require a review date and a `verified_digest` binding the reviewed category markdown. After a full category review, record its `category_digests` value from `python scripts/assurance_check.py --json --no-write`; dates alone remain unverified, changed content remains stale, and `--strict` fails on either status.
 
 Validate each changed skill, sweep the affected category when several change, and finish with the changed-file check. Structural checks do not prove workflow quality - review the instructions for substantive behaviour changes. Keep the categories and commands in this README and [CATALOG.md](CATALOG.md) synchronized with the tree.
 
